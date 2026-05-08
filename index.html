@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GasCol | Recarga de Pipetas de Gas en Colombia</title>
+  <meta name="description" content="GasCol: recarga de pipetas de gas a domicilio en Colombia. Servicio rápido, seguro y con atención por WhatsApp." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --azul:#082032;
+      --azul2:#0b2d45;
+      --naranja:#ff8a00;
+      --amarillo:#ffd166;
+      --verde:#25d366;
+      --gris:#f4f7fb;
+      --texto:#1c2733;
+      --blanco:#ffffff;
+      --sombra:0 22px 60px rgba(8,32,50,.18);
+      --radio:28px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      color:var(--texto);
+      background:var(--gris);
+      overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit;}
+    img{max-width:100%;display:block;}
+
+    .topbar{
+      width:100%;
+      background:linear-gradient(90deg,var(--azul),var(--azul2));
+      color:#fff;
+      font-size:14px;
+      padding:10px 6%;
+      display:flex;
+      justify-content:center;
+      text-align:center;
+      gap:12px;
+    }
+
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(18px);
+      background:rgba(255,255,255,.86);
+      border-bottom:1px solid rgba(8,32,50,.08);
+      padding:16px 6%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      color:var(--azul);
+      font-size:25px;
+      letter-spacing:-.8px;
+    }
+    .logo-icon{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--naranja),var(--amarillo));
+      display:grid;
+      place-items:center;
+      box-shadow:0 10px 25px rgba(255,138,0,.35);
+    }
+
+    .navlinks{
+      display:flex;
+      gap:26px;
+      align-items:center;
+      font-weight:700;
+      font-size:14px;
+      color:#344557;
+    }
+    .navlinks a:hover{color:var(--naranja);}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:15px 24px;
+      border-radius:999px;
+      font-weight:900;
+      transition:.25s ease;
+      border:none;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .btn-whatsapp{
+      background:var(--verde);
+      color:#fff;
+      box-shadow:0 16px 35px rgba(37,211,102,.32);
+    }
+    .btn-whatsapp:hover{transform:translateY(-3px) scale(1.02);filter:brightness(.98);}
+    .btn-dark{
+      background:var(--azul);
+      color:#fff;
+      box-shadow:0 16px 35px rgba(8,32,50,.25);
+    }
+    .btn-dark:hover{transform:translateY(-3px);background:#0d314c;}
+
+    .hero{
+      position:relative;
+      min-height:92vh;
+      padding:90px 6% 70px;
+      background:
+        radial-gradient(circle at top right,rgba(255,138,0,.35),transparent 30%),
+        linear-gradient(135deg,#071b2b 0%,#0b2d45 52%,#0e4662 100%);
+      color:#fff;
+      overflow:hidden;
+    }
+
+    .hero::before,
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      background:rgba(255,255,255,.05);
+      animation:float 7s ease-in-out infinite;
+    }
+    .hero::before{left:-130px;top:130px;}
+    .hero::after{right:-140px;bottom:-90px;animation-delay:1.5s;}
+
+    @keyframes float{
+      0%,100%{transform:translateY(0) rotate(0deg);}
+      50%{transform:translateY(-28px) rotate(8deg);}
+    }
+
+    .hero-grid{
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:50px;
+      align-items:center;
+      max-width:1240px;
+      margin:0 auto;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      padding:10px 16px;
+      border-radius:999px;
+      font-weight:800;
+      color:#ffe5b8;
+      margin-bottom:22px;
+      backdrop-filter:blur(10px);
+    }
+
+    h1{
+      font-size:clamp(42px,7vw,78px);
+      line-height:.98;
+      letter-spacing:-3px;
+      margin-bottom:24px;
+      font-weight:900;
+    }
+    .hero h1 span{color:var(--amarillo);}
+    .hero p{
+      font-size:clamp(17px,2vw,22px);
+      line-height:1.65;
+      color:rgba(255,255,255,.86);
+      max-width:670px;
+      margin-bottom:30px;
+    }
+
+    .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:34px;}
+    .trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:680px;}
+    .trust-item{
+      background:rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:18px;
+      padding:16px;
+      backdrop-filter:blur(8px);
+    }
+    .trust-item strong{display:block;font-size:23px;color:#fff;margin-bottom:4px;}
+    .trust-item small{color:rgba(255,255,255,.75);font-weight:600;}
+
+    .gas-card{
+      position:relative;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:36px;
+      padding:28px;
+      box-shadow:var(--sombra);
+      backdrop-filter:blur(18px);
+      animation:cardMove 5.8s ease-in-out infinite;
+    }
+    @keyframes cardMove{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-16px);}
+    }
+
+    .cylinder{
+      height:430px;
+      border-radius:34px 34px 46px 46px;
+      background:linear-gradient(160deg,#ffb347 0%,#ff8a00 45%,#d95d00 100%);
+      position:relative;
+      overflow:hidden;
+      box-shadow:inset -30px -35px 70px rgba(0,0,0,.22), inset 25px 25px 70px rgba(255,255,255,.2);
+    }
+    .cylinder::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:170px;
+      height:58px;
+      border-radius:0 0 28px 28px;
+      background:#0a2337;
+      box-shadow:0 14px 0 rgba(255,255,255,.16);
+    }
+    .cylinder::after{
+      content:"GASCOL";
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      font-size:46px;
+      font-weight:900;
+      color:#fff;
+      letter-spacing:2px;
+      text-shadow:0 5px 20px rgba(0,0,0,.25);
+    }
+    .shine{
+      position:absolute;
+      width:90px;
+      height:160%;
+      top:-30%;
+      left:-60%;
+      background:rgba(255,255,255,.25);
+      transform:rotate(22deg);
+      animation:shine 4s ease-in-out infinite;
+    }
+    @keyframes shine{
+      0%{left:-60%;}
+      45%,100%{left:130%;}
+    }
+
+    .floating-note{
+      position:absolute;
+      right:8px;
+      bottom:42px;
+      background:#fff;
+      color:var(--azul);
+      padding:18px 20px;
+      border-radius:22px;
+      box-shadow:0 18px 45px rgba(0,0,0,.22);
+      font-weight:900;
+      animation:pulse 2.5s infinite;
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1);}
+      50%{transform:scale(1.045);}
+    }
+
+    section{padding:88px 6%;}
+    .container{max-width:1240px;margin:0 auto;}
+    .section-head{text-align:center;max-width:780px;margin:0 auto 48px;}
+    .eyebrow{color:var(--naranja);font-weight:900;text-transform:uppercase;letter-spacing:.12em;font-size:13px;margin-bottom:12px;}
+    h2{font-size:clamp(32px,4.5vw,52px);line-height:1.08;letter-spacing:-1.8px;color:var(--azul);margin-bottom:16px;font-weight:900;}
+    .section-head p{font-size:18px;color:#617082;line-height:1.7;}
+
+    .cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .card{
+      background:#fff;
+      border-radius:var(--radio);
+      padding:30px;
+      box-shadow:0 14px 42px rgba(8,32,50,.08);
+      border:1px solid rgba(8,32,50,.06);
+      transition:.28s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:5px;
+      background:linear-gradient(90deg,var(--naranja),var(--amarillo));
+    }
+    .card:hover{transform:translateY(-10px);box-shadow:0 25px 60px rgba(8,32,50,.14);}
+    .icon{
+      width:58px;
+      height:58px;
+      border-radius:20px;
+      background:#fff3df;
+      display:grid;
+      place-items:center;
+      font-size:28px;
+      margin-bottom:22px;
+    }
+    .card h3{font-size:22px;color:var(--azul);margin-bottom:12px;font-weight:900;}
+    .card p{color:#647386;line-height:1.7;font-size:15.5px;}
+
+    .steps{
+      background:#fff;
+      position:relative;
+    }
+    .steps-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+    .step{
+      padding:26px;
+      border-radius:26px;
+      background:linear-gradient(180deg,#f8fbff,#fff);
+      border:1px solid rgba(8,32,50,.08);
+      position:relative;
+      transition:.25s;
+    }
+    .step:hover{transform:translateY(-7px);}
+    .step-number{
+      width:46px;height:46px;border-radius:16px;
+      background:var(--azul);color:#fff;
+      display:grid;place-items:center;
+      font-weight:900;margin-bottom:18px;
+    }
+    .step h3{color:var(--azul);font-size:19px;margin-bottom:10px;}
+    .step p{color:#647386;line-height:1.6;font-size:15px;}
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:46px;
+      align-items:center;
+    }
+    .feature-box{
+      background:linear-gradient(135deg,#082032,#0c3c5d);
+      color:#fff;
+      border-radius:36px;
+      padding:42px;
+      box-shadow:var(--sombra);
+      position:relative;
+      overflow:hidden;
+    }
+    .feature-box::after{
+      content:"";
+      position:absolute;
+      width:230px;height:230px;border-radius:50%;
+      background:rgba(255,138,0,.2);
+      right:-80px;top:-70px;
+    }
+    .feature-box h2{color:#fff;position:relative;z-index:2;}
+    .feature-box p{color:rgba(255,255,255,.8);line-height:1.75;margin-bottom:26px;position:relative;z-index:2;}
+    .check-list{display:grid;gap:14px;position:relative;z-index:2;}
+    .check{
+      display:flex;align-items:flex-start;gap:12px;
+      background:rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.14);
+      padding:14px;
+      border-radius:16px;
+      color:#fff;
+      font-weight:700;
+    }
+
+    .service-list{display:grid;gap:18px;}
+    .service-row{
+      background:#fff;
+      border-radius:22px;
+      padding:22px;
+      display:flex;
+      gap:18px;
+      align-items:flex-start;
+      border:1px solid rgba(8,32,50,.08);
+      box-shadow:0 12px 30px rgba(8,32,50,.06);
+      transition:.25s;
+    }
+    .service-row:hover{transform:translateX(8px);}
+    .service-row .mini{
+      min-width:46px;height:46px;border-radius:14px;
+      display:grid;place-items:center;
+      background:#fff3df;font-size:22px;
+    }
+    .service-row h3{font-size:19px;color:var(--azul);margin-bottom:6px;}
+    .service-row p{color:#647386;line-height:1.55;font-size:15px;}
+
+    .coverage{
+      background:
+        radial-gradient(circle at top left,rgba(255,138,0,.18),transparent 32%),
+        linear-gradient(135deg,#eef5fb,#ffffff);
+    }
+    .city-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+    .city{
+      background:#fff;
+      border:1px solid rgba(8,32,50,.08);
+      border-radius:18px;
+      padding:18px;
+      text-align:center;
+      font-weight:900;
+      color:var(--azul);
+      box-shadow:0 10px 28px rgba(8,32,50,.06);
+    }
+
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .price-card{
+      background:#fff;
+      border-radius:30px;
+      padding:34px;
+      border:1px solid rgba(8,32,50,.08);
+      box-shadow:0 16px 45px rgba(8,32,50,.08);
+      position:relative;
+      overflow:hidden;
+    }
+    .price-card.featured{
+      transform:scale(1.04);
+      background:linear-gradient(145deg,#082032,#0d3d5c);
+      color:#fff;
+    }
+    .price-card.featured h3,.price-card.featured .size{color:#fff;}
+    .size{font-size:40px;font-weight:900;color:var(--azul);margin:12px 0;}
+    .price-card p{color:#667789;line-height:1.65;margin-bottom:20px;}
+    .price-card.featured p{color:rgba(255,255,255,.78);}
+    .price-card ul{list-style:none;display:grid;gap:10px;margin-bottom:24px;}
+    .price-card li{font-weight:700;color:inherit;}
+
+    .faq{background:#fff;}
+    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+    details{
+      background:#f7f9fc;
+      border:1px solid rgba(8,32,50,.08);
+      border-radius:20px;
+      padding:20px 22px;
+    }
+    summary{
+      cursor:pointer;
+      font-weight:900;
+      color:var(--azul);
+      font-size:17px;
+    }
+    details p{margin-top:14px;color:#647386;line-height:1.65;}
+
+    .cta{
+      padding:80px 6%;
+      background:linear-gradient(135deg,#ff8a00,#ffb703);
+      color:#fff;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .cta::before{
+      content:"";
+      position:absolute;
+      width:420px;height:420px;border-radius:50%;
+      background:rgba(255,255,255,.16);
+      left:-120px;top:-180px;
+      animation:float 8s infinite;
+    }
+    .cta h2{color:#fff;max-width:850px;margin:0 auto 18px;}
+    .cta p{max-width:720px;margin:0 auto 28px;font-size:18px;line-height:1.7;color:rgba(255,255,255,.9);}
+
+    footer{
+      background:#061826;
+      color:#fff;
+      padding:46px 6%;
+    }
+    .footer-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:30px;}
+    footer h3{font-size:23px;margin-bottom:14px;}
+    footer p, footer a{color:rgba(255,255,255,.72);line-height:1.8;font-size:15px;}
+    .copy{border-top:1px solid rgba(255,255,255,.1);margin-top:30px;padding-top:22px;text-align:center;color:rgba(255,255,255,.55);font-size:14px;}
+
+    .whatsapp-float{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      z-index:100;
+      width:64px;
+      height:64px;
+      border-radius:50%;
+      background:var(--verde);
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-size:32px;
+      box-shadow:0 18px 38px rgba(37,211,102,.42);
+      animation:waPulse 1.8s infinite;
+    }
+    @keyframes waPulse{
+      0%{box-shadow:0 0 0 0 rgba(37,211,102,.45);}
+      70%{box-shadow:0 0 0 18px rgba(37,211,102,0);}
+      100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
+    }
+
+    .reveal{opacity:0;transform:translateY(26px);transition:.8s ease;}
+    .reveal.active{opacity:1;transform:translateY(0);}
+
+    @media(max-width:980px){
+      .navlinks{display:none;}
+      .hero-grid,.split{grid-template-columns:1fr;}
+      .gas-card{max-width:520px;margin:0 auto;}
+      .cards-grid,.pricing-grid{grid-template-columns:1fr 1fr;}
+      .steps-wrap{grid-template-columns:1fr 1fr;}
+      .city-grid{grid-template-columns:1fr 1fr;}
+      .faq-grid{grid-template-columns:1fr;}
+      .footer-grid{grid-template-columns:1fr;}
+      .price-card.featured{transform:none;}
+    }
+    @media(max-width:620px){
+      .topbar{font-size:12px;}
+      .navbar{padding:13px 5%;}
+      .logo{font-size:21px;}
+      .hero{padding:64px 5% 55px;}
+      .hero-actions{flex-direction:column;}
+      .btn{width:100%;}
+      .trust-row,.cards-grid,.pricing-grid,.steps-wrap,.city-grid{grid-template-columns:1fr;}
+      .cylinder{height:340px;}
+      .floating-note{right:14px;bottom:20px;font-size:13px;}
+      section{padding:68px 5%;}
+      .feature-box{padding:30px;}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    🔥 Servicio de recarga de pipetas de gas en Colombia · Atención por WhatsApp: 316 055 6370
+  </div>
+
+  <nav class="navbar">
+    <a href="#inicio" class="logo">
+      <span class="logo-icon">🔥</span>
+      GasCol
+    </a>
+    <div class="navlinks">
+      <a href="#servicios">Servicios</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#cobertura">Cobertura</a>
+      <a href="#faq">Preguntas</a>
+    </div>
+    <a class="btn btn-whatsapp" href="https://wa.me/573160556370?text=Hola%20GasCol%2C%20quiero%20solicitar%20una%20recarga%20de%20pipeta%20de%20gas" target="_blank">WhatsApp</a>
+  </nav>
+
+  <header class="hero" id="inicio">
+    <div class="hero-grid">
+      <div>
+        <div class="badge">⚡ Recarga rápida, segura y coordinada</div>
+        <h1>Recarga de pipetas de gas en <span>Colombia</span></h1>
+        <p>
+          En GasCol te conectamos con atención rápida para recarga de pipetas de gas a domicilio. Servicio pensado para hogares, negocios, restaurantes, fincas, tiendas y comercios que necesitan respuesta inmediata, ordenada y confiable.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-whatsapp" href="https://wa.me/573160556370?text=Hola%20GasCol%2C%20necesito%20recargar%20una%20pipeta%20de%20gas" target="_blank">📲 Solicitar recarga ahora</a>
+          <a class="btn btn-dark" href="#servicios">Ver servicios</a>
+        </div>
+        <div class="trust-row">
+          <div class="trust-item"><strong>24/7</strong><small>Solicitud por WhatsApp</small></div>
+          <div class="trust-item"><strong>Rápido</strong><small>Atención coordinada</small></div>
+          <div class="trust-item"><strong>Colombia</strong><small>Cobertura nacional</small></div>
+        </div>
+      </div>
+
+      <div class="gas-card" aria-label="Pipeta de gas GasCol">
+        <div class="cylinder"><span class="shine"></span></div>
+        <div class="floating-note">✅ Pide tu recarga por WhatsApp</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="servicios">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Servicios GasCol</div>
+        <h2>Soluciones completas para recarga de gas</h2>
+        <p>Una página segmentada para captar clientes que necesitan recarga de pipetas de gas de forma rápida, clara y directa.</p>
+      </div>
+
+      <div class="cards-grid">
+        <article class="card reveal">
+          <div class="icon">🏠</div>
+          <h3>Hogares y apartamentos</h3>
+          <p>Atención para familias que necesitan recargar su pipeta de gas para cocina, preparación de alimentos y uso diario en casa.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon">🍳</div>
+          <h3>Restaurantes y negocios</h3>
+          <p>Servicio pensado para locales de comida, panaderías, cafeterías, comidas rápidas, asaderos y emprendimientos gastronómicos.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon">🚚</div>
+          <h3>Coordinación a domicilio</h3>
+          <p>Recibe atención por WhatsApp, confirma ubicación, tipo de pipeta y disponibilidad para coordinar tu servicio.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon">🛡️</div>
+          <h3>Servicio seguro</h3>
+          <p>Proceso orientado a una atención responsable, con recomendaciones básicas de seguridad antes y después de la recarga.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon">📍</div>
+          <h3>Ciudades y municipios</h3>
+          <p>Cobertura para principales ciudades, municipios y zonas cercanas según disponibilidad operativa.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon">💬</div>
+          <h3>Atención directa</h3>
+          <p>El cliente entra directo a WhatsApp con mensaje listo para iniciar la solicitud sin llenar formularios largos.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps" id="proceso">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Cómo funciona</div>
+        <h2>Proceso simple en 4 pasos</h2>
+        <p>Diseñado para que el cliente entienda rápido qué hacer y se comunique sin perder tiempo.</p>
+      </div>
+
+      <div class="steps-wrap">
+        <div class="step reveal">
+          <div class="step-number">1</div>
+          <h3>Escríbenos</h3>
+          <p>Haz clic en el botón de WhatsApp y envía tu solicitud de recarga.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-number">2</div>
+          <h3>Confirma datos</h3>
+          <p>Indica ciudad, barrio, dirección, tipo de pipeta y cantidad requerida.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-number">3</div>
+          <h3>Coordinamos</h3>
+          <p>Se valida disponibilidad de atención para tu zona y se organiza el servicio.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-number">4</div>
+          <h3>Recibe tu recarga</h3>
+          <p>Tu solicitud queda lista para atención de forma rápida y ordenada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container split">
+      <div class="feature-box reveal">
+        <div class="eyebrow">Ventaja competitiva</div>
+        <h2>Una atención más clara, rápida y profesional</h2>
+        <p>
+          GasCol está enfocado en reducir el tiempo entre la intención del cliente y la solicitud real por WhatsApp. La página guía al usuario, elimina dudas y lo lleva directo a la acción.
+        </p>
+        <div class="check-list">
+          <div class="check">✅ Botones directos a WhatsApp con mensaje automático</div>
+          <div class="check">✅ Segmentación por hogares, negocios y restaurantes</div>
+          <div class="check">✅ Diseño moderno, responsive y optimizado para celular</div>
+          <div class="check">✅ Animaciones suaves para una experiencia más atractiva</div>
+        </div>
+      </div>
+
+      <div class="service-list">
+        <div class="service-row reveal">
+          <div class="mini">🔥</div>
+          <div>
+            <h3>Recarga de pipetas de gas</h3>
+            <p>Servicio principal para clientes que requieren disponibilidad rápida de gas en su vivienda o negocio.</p>
+          </div>
+        </div>
+        <div class="service-row reveal">
+          <div class="mini">🏪</div>
+          <div>
+            <h3>Atención comercial</h3>
+            <p>Ideal para establecimientos que dependen del gas para operar diariamente y necesitan respuesta eficiente.</p>
+          </div>
+        </div>
+        <div class="service-row reveal">
+          <div class="mini">🧯</div>
+          <div>
+            <h3>Orientación de seguridad</h3>
+            <p>Recomendaciones para ubicar la pipeta en espacios ventilados, evitar fugas y revisar conexiones.</p>
+          </div>
+        </div>
+        <div class="service-row reveal">
+          <div class="mini">📞</div>
+          <div>
+            <h3>Solicitud inmediata</h3>
+            <p>El usuario puede pedir información, disponibilidad y coordinación escribiendo directamente al 316 055 6370.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="coverage" id="cobertura">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Cobertura</div>
+        <h2>Atención en Colombia</h2>
+        <p>Comunicación directa para coordinar solicitudes en ciudades principales, municipios, barrios y zonas cercanas según disponibilidad.</p>
+      </div>
+
+      <div class="city-grid">
+        <div class="city reveal">Bogotá</div>
+        <div class="city reveal">Medellín</div>
+        <div class="city reveal">Cali</div>
+        <div class="city reveal">Barranquilla</div>
+        <div class="city reveal">Bucaramanga</div>
+        <div class="city reveal">Cartagena</div>
+        <div class="city reveal">Cúcuta</div>
+        <div class="city reveal">Pereira</div>
+        <div class="city reveal">Manizales</div>
+        <div class="city reveal">Ibagué</div>
+        <div class="city reveal">Santa Marta</div>
+        <div class="city reveal">Municipios cercanos</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Tipos de atención</div>
+        <h2>Solicita según tu necesidad</h2>
+        <p>Bloques claros para que cada cliente se identifique y contacte rápido.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card reveal">
+          <h3>Uso residencial</h3>
+          <div class="size">Hogar</div>
+          <p>Para casas, apartamentos, fincas y familias que necesitan gas para el día a día.</p>
+          <ul>
+            <li>✓ Cocina diaria</li>
+            <li>✓ Solicitud por barrio</li>
+            <li>✓ Atención por WhatsApp</li>
+          </ul>
+          <a class="btn btn-whatsapp" href="https://wa.me/573160556370?text=Hola%20GasCol%2C%20necesito%20recarga%20de%20gas%20para%20mi%20hogar" target="_blank">Solicitar</a>
+        </div>
+
+        <div class="price-card featured reveal">
+          <h3>Negocios de comida</h3>
+          <div class="size">Comercial</div>
+          <p>Para restaurantes, asaderos, panaderías, cafeterías y emprendimientos gastronómicos.</p>
+          <ul>
+            <li>✓ Atención prioritaria</li>
+            <li>✓ Coordinación rápida</li>
+            <li>✓ Ideal para operación diaria</li>
+          </ul>
+          <a class="btn btn-whatsapp" href="https://wa.me/573160556370?text=Hola%20GasCol%2C%20necesito%20recarga%20de%20gas%20para%20mi%20negocio" target="_blank">Pedir para mi negocio</a>
+        </div>
+
+        <div class="price-card reveal">
+          <h3>Zonas rurales</h3>
+          <div class="size">Finca</div>
+          <p>Para veredas, corregimientos y zonas cercanas donde se requiere coordinación previa.</p>
+          <ul>
+            <li>✓ Validación de cobertura</li>
+            <li>✓ Atención por ubicación</li>
+            <li>✓ Respuesta directa</li>
+          </ul>
+          <a class="btn btn-whatsapp" href="https://wa.me/573160556370?text=Hola%20GasCol%2C%20quiero%20validar%20cobertura%20para%20recarga%20de%20gas" target="_blank">Validar cobertura</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Preguntas frecuentes</div>
+        <h2>Resuelve dudas antes de pedir tu recarga</h2>
+        <p>Información clara para aumentar confianza y mejorar la conversión.</p>
+      </div>
+
+      <div class="faq-grid">
+        <details class="reveal">
+          <summary>¿Cómo solicito una recarga?</summary>
+          <p>Haz clic en cualquier botón de WhatsApp y escribe tu ciudad, barrio, dirección, tipo de pipeta y cantidad que necesitas.</p>
+        </details>
+        <details class="reveal">
+          <summary>¿Atienden negocios?</summary>
+          <p>Sí. La página está preparada para captar solicitudes de restaurantes, tiendas, panaderías, cafeterías y comercios que usan gas diariamente.</p>
+        </details>
+        <details class="reveal">
+          <summary>¿Atienden municipios?</summary>
+          <p>La atención depende de la ubicación y disponibilidad. Lo correcto es escribir por WhatsApp para validar cobertura.</p>
+        </details>
+        <details class="reveal">
+          <summary>¿Qué datos debo enviar?</summary>
+          <p>Nombre, ciudad, barrio, dirección, tipo de pipeta, cantidad requerida y una referencia de ubicación.</p>
+        </details>
+        <details class="reveal">
+          <summary>¿Puedo pedir para una empresa?</summary>
+          <p>Sí. Puedes solicitar atención para negocios, locales comerciales, cocinas industriales pequeñas y emprendimientos gastronómicos.</p>
+        </details>
+        <details class="reveal">
+          <summary>¿Cuál es el número de contacto?</summary>
+          <p>El número oficial de WhatsApp de GasCol es 316 055 6370.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container reveal">
+      <h2>¿Necesitas recargar tu pipeta de gas hoy?</h2>
+      <p>Escríbenos ahora por WhatsApp y recibe atención directa para coordinar tu solicitud en Colombia.</p>
+      <a class="btn btn-dark" href="https://wa.me/573160556370?text=Hola%20GasCol%2C%20quiero%20solicitar%20una%20recarga%20de%20pipeta%20de%20gas%20hoy" target="_blank">📲 Hablar con GasCol</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h3>GasCol</h3>
+        <p>Recarga de pipetas de gas en Colombia con atención directa por WhatsApp. Página moderna, segmentada y optimizada para captar solicitudes.</p>
+      </div>
+      <div>
+        <h3>Contacto</h3>
+        <p>WhatsApp: <a href="https://wa.me/573160556370" target="_blank">316 055 6370</a></p>
+        <p>Atención: Colombia</p>
+      </div>
+      <div>
+        <h3>Servicios</h3>
+        <p>Recarga residencial</p>
+        <p>Recarga comercial</p>
+        <p>Validación de cobertura</p>
+      </div>
+    </div>
+    <div class="copy">© 2026 GasCol. Todos los derechos reservados.</div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://wa.me/573160556370?text=Hola%20GasCol%2C%20quiero%20informaci%C3%B3n%20sobre%20recarga%20de%20pipetas%20de%20gas" target="_blank" aria-label="WhatsApp GasCol">☘</a>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.13 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
